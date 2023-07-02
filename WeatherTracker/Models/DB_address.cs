@@ -6,38 +6,51 @@ using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http;
 
 namespace WeatherTracker.Models
 {
     static class DB_address
     {
         const string key = "e3a47ea54a9d49799c4112128231906";
+        static readonly HttpClient client = new HttpClient();
         public static async void addCity(string name)
         {
-            WebRequest request = WebRequest.Create($"http://api.weatherapi.com/v1/current.json?key={key}&q={name}&aqi=no");
-            request.Method = "POST";
-            request.ContentType = "application/x-www-urlencoded";
-            WebResponse response = await request.GetResponseAsync();
+            //запрос к weatherapi
             string answer = "";
-            using (Stream s = response.GetResponseStream())
+            try
             {
-                using (StreamReader reader = new StreamReader(s))
-                {
-                    answer = await reader.ReadToEndAsync();
-                }
+                HttpResponseMessage response = await client.GetAsync($"http://api.weatherapi.com/v1/current.json?key={key}&q={name}&aqi=no");
+                response.EnsureSuccessStatusCode();
+                answer = await response.Content.ReadAsStringAsync();
+                
             }
-            response.Close();
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("Ошибка отправки запроса", e.Message);
+            }
+            if (answer == "")
+            {
+                return;
+            }
+
+            //перевод в JSON
             var weather = JsonConvert.DeserializeObject<Response>(answer);
             if ((weather?.location?.name ?? "") == "")//не найден город
             {
                 return;
             }
+
             Model db = new Model();
+
+            //проверка на наличие города в базе
             var loc = (from location in db.City
                         where location.name == weather.location.name
                         select location).FirstOrDefault();
             if (loc != null)//город уже добавлен
                 return;
+
+            //добавление горрода
             City city = new City();
             city.name = weather.location.name;
             city.actual = false;
