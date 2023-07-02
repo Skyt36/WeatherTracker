@@ -88,13 +88,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\City.cs" />
-    <Compile Include="Models\DB_address.cs" />
-    <Compile Include="Models\Model.cs">
+    <Compile Include="Data\City.cs" />
+    <Compile Include="Services\DB_address.cs" />
+    <Compile Include="Data\DbModel.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\Response.cs" />
-    <Compile Include="Models\Weather.cs" />
+    <Compile Include="Data\Weather.cs" />
     <Compile Include="ViewModels\CitiesListViewModel.cs" />
     <Compile Include="ViewModels\CurrentCityViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -136,9 +136,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Resources\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\CitiesListView.xaml">
