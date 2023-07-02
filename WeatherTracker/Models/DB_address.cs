@@ -7,12 +7,14 @@ using System.Net;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
+using System.Configuration;
 
 namespace WeatherTracker.Models
 {
     static class DB_address
     {
-        const string key = "e3a47ea54a9d49799c4112128231906";
+        static readonly string key = ConfigurationManager.AppSettings.Get("key");
+        static readonly string url = ConfigurationManager.AppSettings.Get("url");
         static readonly HttpClient client = new HttpClient();
         public static async void addCity(string name)
         {
@@ -20,7 +22,7 @@ namespace WeatherTracker.Models
             string answer = "";
             try
             {
-                HttpResponseMessage response = await client.GetAsync($"http://api.weatherapi.com/v1/current.json?key={key}&q={name}&aqi=no");
+                HttpResponseMessage response = await client.GetAsync($"{url}key={key}&q={name}&aqi=no");
                 response.EnsureSuccessStatusCode();
                 answer = await response.Content.ReadAsStringAsync();
                 
