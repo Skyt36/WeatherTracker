@@ -68,6 +68,11 @@ namespace WeatherTracker.Models
             db.City.Add(city);
             db.SaveChanges();
         }
+
+        public static void DeleteCity(string name)
+        {
+
+        }
         public static ICollection<City> GetAllCities()
         {
             Model db = new Model();

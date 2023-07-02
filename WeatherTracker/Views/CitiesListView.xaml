@@ -25,12 +25,15 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="6" Background="Gray">
-            <DataGrid ItemsSource="{Binding CitiesList}" AutoGenerateColumns="False" IsReadOnly="True">
+            <StackPanel Orientation="Vertical">
+            <Button Width="100" Height="20" Command="{Binding bUpdate_Click}" Content="Обновить"/>
+            <DataGrid x:Name="dataGrid_CitiesList" ItemsSource="{Binding CitiesList}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=CitiesListCurrentItem,Mode=TwoWay}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Город" Binding="{Binding name}"/>
-                    <DataGridTextColumn Header="Актуализация" Binding="{Binding actual}"/>
+                    <DataGridTextColumn Header="Город" Binding="{Binding name}" Width="3*"/>
+                    <DataGridTextColumn Header="Актуализация" Binding="{Binding actual}" Width="2*"/>
                 </DataGrid.Columns>
             </DataGrid>
+            </StackPanel>
         </DockPanel>
         <DockPanel Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="4" Background="LightGray">
             <StackPanel Orientation="Vertical">

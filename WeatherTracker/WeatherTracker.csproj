@@ -89,7 +89,9 @@
     </Compile>
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DB_address.cs" />
-    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Model.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="ViewModels\CitiesListViewModel.cs" />

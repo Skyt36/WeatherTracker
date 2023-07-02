@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +43,20 @@ namespace WeatherTracker.ViewModels
                 return new RelayCommand(() => {
                     Models.DB_address.addCity(CityName);
                     CitiesList = Models.DB_address.GetAllCities();
-                    });
+                });
             }
         }
+        public ICommand bUpdate_Click
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    CitiesList = Models.DB_address.GetAllCities();
+                });
+            }
+        }
+        
         public CitiesListViewModel()
         {
             CitiesList = Models.DB_address.GetAllCities();
