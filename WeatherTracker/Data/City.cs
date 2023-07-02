@@ -1,4 +1,4 @@
-namespace WeatherTracker.Models
+namespace WeatherTracker.Data
 {
     using System;
     using System.Collections.Generic;

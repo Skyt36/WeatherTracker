@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WeatherTracker.Services;
 
 namespace WeatherTracker.ViewModels
 {
@@ -25,15 +26,15 @@ namespace WeatherTracker.ViewModels
             DependencyProperty.Register("CityName", typeof(string), typeof(CitiesListViewModel), new PropertyMetadata(""));
 
 
-        public ICollection<Models.City> CitiesList
+        public ICollection<Data.City> CitiesList
         {
-            get { return (ICollection<Models.City>)GetValue(CitiesListProperty); }
+            get { return (ICollection<Data.City>)GetValue(CitiesListProperty); }
             set { SetValue(CitiesListProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CitiesList.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CitiesListProperty =
-            DependencyProperty.Register("CitiesList", typeof(ICollection<Models.City>), typeof(CitiesListViewModel), new PropertyMetadata(null));
+            DependencyProperty.Register("CitiesList", typeof(ICollection<Data.City>), typeof(CitiesListViewModel), new PropertyMetadata(null));
 
 
         public ICommand bAdd_Click
@@ -41,8 +42,8 @@ namespace WeatherTracker.ViewModels
             get
             {
                 return new RelayCommand(() => {
-                    Models.DB_address.addCity(CityName);
-                    CitiesList = Models.DB_address.GetAllCities();
+                    DB_address.addCity(CityName);
+                    CitiesList = DB_address.GetAllCities();
                 });
             }
         }
@@ -52,14 +53,14 @@ namespace WeatherTracker.ViewModels
             {
                 return new RelayCommand(() =>
                 {
-                    CitiesList = Models.DB_address.GetAllCities();
+                    CitiesList = DB_address.GetAllCities();
                 });
             }
         }
         
         public CitiesListViewModel()
         {
-            CitiesList = Models.DB_address.GetAllCities();
+            CitiesList = DB_address.GetAllCities();
         }
     }
 }

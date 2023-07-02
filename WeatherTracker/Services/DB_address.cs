@@ -8,8 +8,9 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
 using System.Configuration;
+using WeatherTracker.Data;
 
-namespace WeatherTracker.Models
+namespace WeatherTracker.Services
 {
     static class DB_address
     {
@@ -38,7 +39,7 @@ namespace WeatherTracker.Models
 
             //перевод в JSON
             var weather = JsonConvert.DeserializeObject<Response>(answer);
-            if ((weather?.location?.name ?? "") == "")//не найден город
+            if ((weather?.location?.Name ?? "") == "")//не найден город
             {
                 return;
             }
@@ -47,14 +48,14 @@ namespace WeatherTracker.Models
 
             //проверка на наличие города в базе
             var loc = (from location in db.City
-                        where location.name == weather.location.name
+                        where location.name == weather.location.Name
                         select location).FirstOrDefault();
             if (loc != null)//город уже добавлен
                 return;
 
             //добавление горрода
             City city = new City();
-            city.name = weather.location.name;
+            city.name = weather.location.Name;
             city.actual = false;
             var id = (from T in db.City
                       select T.id_city).FirstOrDefault();

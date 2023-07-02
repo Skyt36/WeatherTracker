@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace WeatherTracker.Models
+namespace WeatherTracker.Data
 {
     public partial class Model : DbContext
     {
