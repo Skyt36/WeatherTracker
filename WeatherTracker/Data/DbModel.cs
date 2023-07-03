@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace WeatherTracker.Data
 {
-    public partial class Model : DbContext
+    public partial class DbModel : DbContext
     {
-        public Model()
+        public DbModel()
             : base("name=ModelConnect")
         {
         }

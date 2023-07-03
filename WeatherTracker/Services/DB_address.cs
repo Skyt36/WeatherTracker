@@ -44,7 +44,7 @@ namespace WeatherTracker.Services
                 return;
             }
 
-            Model db = new Model();
+            DbModel db = new DbModel();
 
             //проверка на наличие города в базе
             var loc = (from location in db.City
@@ -78,7 +78,7 @@ namespace WeatherTracker.Services
         }
         public static ICollection<City> GetAllCities()
         {
-            Model db = new Model();
+            DbModel db = new DbModel();
             ICollection<City> items = (from T in db.City
                                        select T).ToList();
             return items;
