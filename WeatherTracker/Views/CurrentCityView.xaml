@@ -28,9 +28,6 @@
                 <TabItem Header="Склорость ветра"></TabItem>
             </TabControl>
         </DockPanel>
-        <ContentControl Grid.Row="0" Grid.Column="3">
-            <Button Command="{Binding bReturn}" Content="Вернуться" Width="100" HorizontalAlignment="Right"/>
-        </ContentControl>
         <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Период" Margin="5"/>

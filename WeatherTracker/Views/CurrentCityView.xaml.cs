@@ -20,9 +20,17 @@ namespace WeatherTracker.Views
     /// </summary>
     public partial class CurrentCityView : UserControl
     {
+
         public CurrentCityView()
         {
             InitializeComponent();
+            DataContext = new ViewModels.CurrentCityViewModel();
+        }
+
+        public CurrentCityView(int id_city)
+        {
+            InitializeComponent();
+            DataContext = new ViewModels.CurrentCityViewModel(id_city);
         }
     }
 }

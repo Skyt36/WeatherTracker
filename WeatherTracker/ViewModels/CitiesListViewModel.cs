@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WeatherTracker.Services;
+using WeatherTracker.Models;
 
 namespace WeatherTracker.ViewModels
 {
     public class CitiesListViewModel : DependencyObject
     {
 
-
+        public DelegateCommand<object> bDelete_Click { get; private set; }
+        public DelegateCommand<object> bOn_Click { get; private set; }
+        public DelegateCommand<object> bOff_Click { get; private set; }
+        public DelegateCommand<object> ItemDoubleClick { get; private set; }
         public string CityName
         {
             get { return (string)GetValue(CityNameProperty); }
@@ -42,11 +46,12 @@ namespace WeatherTracker.ViewModels
             get
             {
                 return new RelayCommand(() => {
-                    DB_address.addCity(CityName);
+                    DB_address.AddCity(CityName);
                     CitiesList = DB_address.GetAllCities();
                 });
             }
         }
+        
         public ICommand bUpdate_Click
         {
             get
@@ -57,10 +62,49 @@ namespace WeatherTracker.ViewModels
                 });
             }
         }
-        
+
         public CitiesListViewModel()
         {
+            bDelete_Click = new DelegateCommand<object>((obj) => { OnDelete_Click(obj); });
+            bOn_Click = new DelegateCommand<object>((obj) => { OnbOn_Click(obj); });
+            bOff_Click = new DelegateCommand<object>((obj) => { OnbOff_Click(obj); });
+            ItemDoubleClick = new DelegateCommand<object>((obj) => { OnItemDoubleClick(obj); });
             CitiesList = DB_address.GetAllCities();
+        }
+
+        private void OnbOff_Click(object obj)
+        {
+            if (obj is Data.City _obj)
+            {
+                DB_address.SetActual(_obj?.name, false);
+                CitiesList = DB_address.GetAllCities();
+            }
+        }
+
+        private void OnbOn_Click(object obj)
+        {
+            if (obj is Data.City _obj)
+            {
+                DB_address.SetActual(_obj?.name, true);
+                CitiesList = DB_address.GetAllCities();
+            }
+        }
+
+        private void OnItemDoubleClick(object obj)
+        {
+            if (obj is Data.City _obj)
+            {
+                
+            }
+        }
+
+        private void OnDelete_Click(object obj)
+        {
+            if(obj is Data.City _obj)
+            {
+                DB_address.DeleteCity(_obj?.name);
+                CitiesList = DB_address.GetAllCities();
+            }
         }
     }
 }
