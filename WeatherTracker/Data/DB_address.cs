@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Http;
 using System.Configuration;
 using WeatherTracker.Data;
+using System.Globalization;
 
 namespace WeatherTracker.Services
 {
@@ -63,6 +64,7 @@ namespace WeatherTracker.Services
             var cities = (from city in db.City
                          where city.actual
                          select city);
+            string weathers = "";
             foreach(City city in cities)
             {
                 string answer = "";
@@ -87,14 +89,39 @@ namespace WeatherTracker.Services
                 {
                     return;
                 }
-                string temp = weather.current.Last_updated.Substring(8, 2);
-                weather.current.Last_updated.Remove(8, 2);
-                weather.current.Last_updated.Insert(8, weather.current.Last_updated.Substring(5, 2));
-                weather.current.Last_updated.Remove(5, 2);
-                weather.current.Last_updated.Insert(5, temp);
-                //db.Database.ExecuteSqlCommand($"insert into Weather (id_city, last_update,temp_c, humidity,pressure_in,wind_mph) values({city.id_city}, {weather.current.Last_updated}, {weather.current.Temp_c}, {weather.current.Humidity}, {weather.current.Pressure_in}, {weather.current.Wind_mph})");
-                db.SaveChanges();
+                var dateTimes = (from weatherTable in db.Weather
+                                      where weatherTable.id_city == city.id_city
+                                      select weatherTable.last_update);
+                DateTime dateTime;
+                if (dateTimes.Count() != 0)
+                    dateTime = dateTimes.Max();
+                else dateTime = DateTime.MinValue;
+                if(DateTime.TryParse(weather.current.Last_updated, out DateTime currentDataTime))
+                {
+                    if(currentDataTime != dateTime)
+                    {
+                        string temp = weather.current.Last_updated.Substring(8, 2);
+                        weather.current.Last_updated = weather.current.Last_updated.Remove(8, 2);
+                        weather.current.Last_updated = weather.current.Last_updated.Insert(8, weather.current.Last_updated.Substring(5, 2));
+                        weather.current.Last_updated = weather.current.Last_updated.Remove(5, 2);
+                        weather.current.Last_updated = weather.current.Last_updated.Insert(5, temp);
+                        if (weathers == "")
+                        {
+                            weathers = $"({city.id_city}, '{weather.current.Last_updated}', {weather.current.Temp_c.ToString(new CultureInfo("en-US",false))}, {weather.current.Humidity}, {weather.current.Pressure_in.ToString(new CultureInfo("en-US", false))}, {weather.current.Wind_mph.ToString(new CultureInfo("en-US", false))})";
+                        }
+                        else
+                        {
+                            weathers += $", ({city.id_city}, '{weather.current.Last_updated}', {weather.current.Temp_c.ToString(new CultureInfo("en-US", false))}, {weather.current.Humidity}, {weather.current.Pressure_in.ToString(new CultureInfo("en-US", false))}, {weather.current.Wind_mph.ToString(new CultureInfo("en-US", false))})";
+                        }
+                    }
+                }
             }
+            if (weathers != "")
+            {
+                db.Database.ExecuteSqlCommand("insert into Weather (id_city, last_update,temp_c, humidity,pressure_in,wind_mph) values "
+                    + weathers + ";");
+            }
+            db.SaveChanges();
         }
 
         public static void DeleteCity(string name)
