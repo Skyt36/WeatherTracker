@@ -68,7 +68,6 @@ namespace WeatherTracker.ViewModels
             bDelete_Click = new DelegateCommand<object>((obj) => { OnDelete_Click(obj); });
             bOn_Click = new DelegateCommand<object>((obj) => { OnbOn_Click(obj); });
             bOff_Click = new DelegateCommand<object>((obj) => { OnbOff_Click(obj); });
-            ItemDoubleClick = new DelegateCommand<object>((obj) => { OnItemDoubleClick(obj); });
             CitiesList = DB_address.GetAllCities();
         }
 
@@ -89,15 +88,6 @@ namespace WeatherTracker.ViewModels
                 CitiesList = DB_address.GetAllCities();
             }
         }
-
-        private void OnItemDoubleClick(object obj)
-        {
-            if (obj is Data.City _obj)
-            {
-                
-            }
-        }
-
         private void OnDelete_Click(object obj)
         {
             if(obj is Data.City _obj)

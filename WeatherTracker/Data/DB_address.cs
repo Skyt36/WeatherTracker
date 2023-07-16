@@ -58,6 +58,18 @@ namespace WeatherTracker.Services
             db.Database.ExecuteSqlCommand($"INSERT INTO City (name, actual) VALUES ('{weather.location.Name}', '0')");
             db.SaveChanges();
         }
+        public static string GetName(int id)
+        {
+            DbModel db = new DbModel();
+            string name = (from c in db.City where c.id_city == id select c.name).FirstOrDefault();
+            return name;
+        }
+        public static IQueryable<Weather> GetInfo(int id)
+        {
+            DbModel db = new DbModel();
+            var info = (from w in db.Weather where w.id_city == id select w);
+            return info;
+        }
         public static async void UpdateWeather()
         {
             DbModel db = new DbModel();

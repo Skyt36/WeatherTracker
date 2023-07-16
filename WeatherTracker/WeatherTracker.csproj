@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Data\City.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
+    <Compile Include="Views\TempConvertor.cs" />
     <Compile Include="Services\Current.cs" />
     <Compile Include="Data\DB_address.cs" />
     <Compile Include="Data\DbModel.cs">

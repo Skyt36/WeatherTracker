@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:WeatherTracker.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:TempConvertor x:Key="TempConvertor"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,18 +25,62 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="4" Grid.ColumnSpan="4">
             <TabControl>
-                <TabItem Header="Температура"></TabItem>
-                <TabItem Header="Влажность"></TabItem>
-                <TabItem Header="Давление"></TabItem>
-                <TabItem Header="Склорость ветра"></TabItem>
+                <TabItem Header="Температура">
+                    <StackPanel Orientation="Vertical">
+
+                        <DataGrid x:Name="dgTemp" ItemsSource="{Binding currentInfo}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="100">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Температура &#176;C" Binding="{Binding temp_c}" Width="3*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding last_update}" Width="2*"/>
+                            </DataGrid.Columns>
+                            <DataGrid.RowStyle>
+                                <Style>
+                                    <Setter Property="ItemsControl.Background" Value="{Binding temp_c, Converter={StaticResource TempConvertor}}"/>
+                                </Style>
+                            </DataGrid.RowStyle>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Влажность">
+                    <StackPanel Orientation="Vertical">
+                        <DataGrid ItemsSource="{Binding currentInfo}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="100">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Влажность %" Binding="{Binding humidity}" Width="3*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding last_update}" Width="2*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Давление">
+                    <StackPanel Orientation="Vertical">
+                        <DataGrid ItemsSource="{Binding currentInfo}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="100">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Давление" Binding="{Binding pressure_in}" Width="3*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding last_update}" Width="2*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Скорость ветра">
+                    <StackPanel Orientation="Vertical">
+                        <DataGrid ItemsSource="{Binding currentInfo}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="100">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Скорость ветра (м/c)" Binding="{Binding wind_mph}" Width="3*"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding last_update}" Width="2*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
             </TabControl>
         </DockPanel>
         <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Период" Margin="5"/>
-                <TextBox Margin="5" Width="150"/>
-                <TextBox Margin="5" Width="150"/>
+                <DatePickerTextBox Margin="1" Width="150" Text="{Binding Path=DateTimeStart, StringFormat='yyyy-dd-MM HH:mm'}"/>
+                <DatePickerTextBox Margin="1" Width="150" Text="{Binding Path=DateTimeEnd, StringFormat='yyyy-dd-MM HH:mm'}"/>
+                <Button Margin="1" Content="Показать" Command="{Binding bShow}"/>
             </StackPanel>
         </DockPanel>
+        <TextBlock Grid.ColumnSpan="4" Text="{Binding CityInfo}"/>
     </Grid>
 </UserControl>
