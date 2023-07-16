@@ -27,7 +27,6 @@
             <TabControl>
                 <TabItem Header="Температура">
                     <StackPanel Orientation="Vertical">
-
                         <DataGrid x:Name="dgTemp" ItemsSource="{Binding currentInfo}" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="100">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Температура &#176;C" Binding="{Binding temp_c}" Width="3*"/>

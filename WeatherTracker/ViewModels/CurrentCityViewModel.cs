@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace WeatherTracker.ViewModels
 {
@@ -56,8 +58,6 @@ namespace WeatherTracker.ViewModels
         public static readonly DependencyProperty currentInfoProperty =
             DependencyProperty.Register("currentInfo", typeof(ICollection<Data.Weather>), typeof(CurrentCityViewModel), new PropertyMetadata(null));
 
-
-
         public ICommand bShow
         {
             get
@@ -65,6 +65,8 @@ namespace WeatherTracker.ViewModels
                 return new RelayCommand(() =>
                 {
                     currentInfo = info.Where(x => x.last_update >= DateTimeStart && x.last_update <= DateTimeEnd).OrderByDescending(x => x.last_update).ToList();
+                    
+
                 });
             }
         }
