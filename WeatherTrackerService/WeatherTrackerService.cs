@@ -8,7 +8,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WeatherTracker.Services;
+using WeatherTrackerService.Services;
 
 namespace WeatherTrackerService
 {
